@@ -1,0 +1,61 @@
+# ===============================
+# Flutter / Dart
+# ===============================
+.dart_tool/
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub/
+.pub-cache/
+
+# ===============================
+# IDE / Editor
+# ===============================
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# ===============================
+# Android
+# ===============================
+android/.gradle/
+android/app/build/
+android/.cxx/
+android/local.properties
+android/key.properties
+/android/app/debug
+/android/app/profile
+/android/app/release
+
+# ===============================
+# iOS / macOS
+# ===============================
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/Flutter.framework
+ios/Flutter/App.framework
+ios/Flutter/Generated.xcconfig
+ios/Flutter/.last_build_id
+macos/Pods/
+
+# ===============================
+# Windows / Linux
+# ===============================
+windows/flutter/ephemeral/
+linux/flutter/ephemeral/
+
+# ===============================
+# Web
+# ===============================
+web/.dart_tool/
+web/build/
+
+# ===============================
+# Misc
+# ===============================
+.DS_Store
+*.log
+*.swp
+how COMMIT_HASH
