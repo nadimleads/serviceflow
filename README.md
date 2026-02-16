@@ -48,6 +48,7 @@ Nadim N. Zubary
 
 
 ## Project Status  
-
-🚧 **This project is currently under development.**  
+🚧
+Done Upto **Requirement Analysis and Designing** now,
+**This project is currently under development phase.**  
 Features are actively being built and improved.
