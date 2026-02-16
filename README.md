@@ -1,6 +1,8 @@
 # ServiceFlow App  
 
-**ServiceFlow** is a workflow automation app designed for consultancy firms to streamline internal operations and client management.
+**ServiceFlow** is a workflow automation app designed for consultancy firms to simplify internal operations and client management.
+
+**Service Flow app**, where I followed an **Agile-based iterative development approach**.
 
 ---
 
@@ -44,7 +46,8 @@ The goal is to reduce manual effort, improve transparency, and increase operatio
 Nadim N. Zubary 
 (Solo Project)
 
+
 ## Project Status  
 
- **This project is currently under development (MVP stage).**  
+🚧 **This project is currently under development.**  
 Features are actively being built and improved.
