@@ -38,13 +38,13 @@ ios/Flutter/Flutter.framework
 ios/Flutter/App.framework
 ios/Flutter/Generated.xcconfig
 ios/Flutter/.last_build_id
-macos/Pods/
+macos/
 
 # ===============================
 # Windows / Linux
 # ===============================
-windows/flutter/ephemeral/
-linux/flutter/ephemeral/
+linux/
+windows/
 
 # ===============================
 # Web

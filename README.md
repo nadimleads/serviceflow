@@ -44,11 +44,11 @@ The goal is to reduce manual effort, improve transparency, and increase operatio
 
 # Author 
 Nadim N. Zubary 
-(Solo Project)
+(Solo Developer)
 
 
 ## Project Status  
 🚧
 Done Upto **Requirement Analysis and Designing** now,
-**This project is currently under development phase.**  
+**This project is currently under Development phase.**  
 Features are actively being built and improved.
