@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "606321730491",
+    "project_id": "serviceflow-69ea6",
+    "storage_bucket": "serviceflow-69ea6.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:606321730491:android:b85ba5f78e8772695dda9e",
+        "android_client_info": {
+          "package_name": "com.example.serviceflow"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqcafFeqOG6iOplp4dWZEH50yruuoWuRA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
