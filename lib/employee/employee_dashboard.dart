@@ -1,17 +1,30 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class TeammateDashboard extends StatefulWidget {
-  const TeammateDashboard({super.key});
+class EmployeeDashboard extends StatelessWidget {
+  const EmployeeDashboard({super.key});
 
-  @override
-  State<TeammateDashboard> createState() {
-    return _TeammateDashboard();
+  Future<void> _logout(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
+
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text("Logged Out!")));
   }
-}
 
-class _TeammateDashboard extends State<TeammateDashboard> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: Text('Teammate Dashboard')));
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Employee Dashboard"),
+        actions: [
+          IconButton(
+            onPressed: () => _logout(context),
+            icon: const Icon(Icons.logout),
+          ),
+        ],
+      ),
+      body: const Center(child: Text("Welcome Employee")),
+    );
   }
 }
