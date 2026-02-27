@@ -24,6 +24,7 @@ This led to delays, miscommunication, and wasted time.
 
 ServiceFlow digitizes and automates the workflow by providing:
 
+(Surface level overview)
 - 📄 Automated invoice generation  
 - 📊 Employee work progress tracking  
 - 🔄 Real-time task & status updates  
