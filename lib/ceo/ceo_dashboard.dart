@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:serviceflow/ceo/custome_appbar.dart';
 import 'package:serviceflow/client/clients_profile.dart';
+import 'package:serviceflow/doc/add_new_doc.dart';
 
 class CeoDashboard extends StatelessWidget {
   const CeoDashboard({super.key});
@@ -28,7 +29,7 @@ class CeoDashboard extends StatelessWidget {
         stream:
             FirebaseFirestore.instance
                 .collection('clients')
-                // .where('active', isEqualTo: true)
+                .where('active', isEqualTo: true)
                 .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -70,23 +71,10 @@ class CeoDashboard extends StatelessWidget {
                         final data = doc.data() as Map<String, dynamic>;
 
                         final clientsName =
-                            (data['clientsname'] ?? '').toString();
+                            data['clientsname'] ?? 'Unknown Client';
                         final fileStatus =
-                            (data['fileStatus'] ?? '').toString();
-
-                        final fileType = (data['fileType'] ?? '').toString();
-
-                        if (fileType.isEmpty) {
-                          return const SizedBox.shrink();
-                        }
-
-                        if (clientsName.isEmpty) {
-                          return const SizedBox.shrink();
-                        }
-
-                        if (fileStatus.isEmpty) {
-                          return const SizedBox.shrink();
-                        }
+                            data['fileStatus'] ?? 'Unknown Status';
+                        final fileType = data['fileType'] ?? 'Unknown Type';
 
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 14),
@@ -152,8 +140,8 @@ class CeoDashboard extends StatelessWidget {
                                   ),
                                   const Icon(
                                     Icons.chevron_right_rounded,
-                                    size: 26,
-                                    color: Colors.black45,
+                                    size: 30,
+                                    color: Colors.black,
                                   ),
                                 ],
                               ),
@@ -181,10 +169,10 @@ class CeoDashboard extends StatelessWidget {
           borderRadius: BorderRadius.circular(26),
           child: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
-            backgroundColor: const Color.fromARGB(255, 216, 0, 83),
+            backgroundColor: const Color.fromARGB(255, 9, 0, 108),
             currentIndex: 0,
             elevation: 0,
-            selectedItemColor: const Color.fromARGB(255, 255, 252, 234),
+            selectedItemColor: const Color.fromARGB(255, 255, 244, 185),
             unselectedItemColor: const Color.fromRGBO(255, 249, 212, 1),
             items: const [
               BottomNavigationBarItem(
@@ -193,11 +181,11 @@ class CeoDashboard extends StatelessWidget {
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.person_add_alt_rounded),
-                label: 'Add New Client',
+                label: 'Add Client',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.post_add_outlined),
-                label: 'Add New Documnet',
+                label: 'Add Documnet',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.receipt_long),
@@ -213,7 +201,10 @@ class CeoDashboard extends StatelessWidget {
                   // Navigate later
                   break;
                 case 2:
-                  // Navigate later
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => AddNewDoc()),
+                  );
                   break;
                 case 3:
                   // Navigate later
