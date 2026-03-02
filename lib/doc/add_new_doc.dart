@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AddNewDoc extends StatefulWidget {
   const AddNewDoc({super.key});
-  // final String ofrestaurantID;
 
   @override
   State<AddNewDoc> createState() => _AddNewDocState();
@@ -70,7 +69,7 @@ class _AddNewDocState extends State<AddNewDoc> {
       backgroundColor: Colors.grey.shade50,
       appBar: AppBar(
         title: const Text("New Document Item"),
-        backgroundColor: const Color(0xFFFF6D00), // vibrant orange
+        backgroundColor: const Color(0xFFFF6D00),
         foregroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
@@ -90,7 +89,6 @@ class _AddNewDocState extends State<AddNewDoc> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    // Header / Title
                     Text(
                       "Add a Documnet here",
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
@@ -131,9 +129,7 @@ class _AddNewDocState extends State<AddNewDoc> {
                     // Price
                     TextFormField(
                       controller: _priceController,
-                      keyboardType: const TextInputType.numberWithOptions(
-                        decimal: true,
-                      ),
+                      keyboardType: const TextInputType.numberWithOptions(),
                       decoration: InputDecoration(
                         labelText: "Price (BDT)",
                         prefixIcon: const Icon(Icons.attach_money_rounded),
@@ -143,12 +139,13 @@ class _AddNewDocState extends State<AddNewDoc> {
                         filled: true,
                         fillColor: Colors.grey.shade50,
                       ),
+
                       validator: (value) {
                         if (value == null || value.trim().isEmpty) {
                           return "Required";
                         }
-                        if (double.tryParse(value) == null ||
-                            double.parse(value) <= 0) {
+                        if (int.tryParse(value) == null ||
+                            int.parse(value) <= 0) {
                           return "Enter valid amount";
                         }
                         return null;

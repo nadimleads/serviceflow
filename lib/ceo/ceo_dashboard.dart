@@ -2,8 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:serviceflow/ceo/custome_appbar.dart';
+import 'package:serviceflow/client/add_new_client.dart';
 import 'package:serviceflow/client/clients_profile.dart';
 import 'package:serviceflow/doc/add_new_doc.dart';
+import 'package:serviceflow/doc/doc_list.dart';
 
 class CeoDashboard extends StatelessWidget {
   const CeoDashboard({super.key});
@@ -198,7 +200,10 @@ class CeoDashboard extends StatelessWidget {
                   _logout(context);
                   break;
                 case 1:
-                  // Navigate later
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => AddNewClient()),
+                  );
                   break;
                 case 2:
                   Navigator.push(
@@ -207,7 +212,10 @@ class CeoDashboard extends StatelessWidget {
                   );
                   break;
                 case 3:
-                  // Navigate later
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => DocListScreen()),
+                  );
                   break;
               }
             },
