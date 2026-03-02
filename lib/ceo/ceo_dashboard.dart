@@ -68,15 +68,13 @@ class CeoDashboard extends StatelessWidget {
                     ),
                     child: ListView.builder(
                       itemCount: clients.length,
-                      itemBuilder: (context, index) {
-                        final doc = clients[index];
+                      itemBuilder: (context, ctxindex) {
+                        final doc = clients[ctxindex];
                         final data = doc.data() as Map<String, dynamic>;
 
-                        final clientsName =
-                            data['clientsname'] ?? 'Unknown Client';
-                        final fileStatus =
-                            data['fileStatus'] ?? 'Unknown Status';
-                        final fileType = data['fileType'] ?? 'Unknown Type';
+                        final clientsName = data['clientsname'] ?? 'UnknownC';
+                        final fileStatus = data['fileStatus'] ?? 'UnknownF';
+                        final fileType = data['fileType'] ?? 'UnknownT';
 
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 14),
