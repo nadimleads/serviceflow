@@ -51,6 +51,10 @@ class AuthWrapper extends StatelessWidget {
               return CeoDashboard();
             }
 
+            if (role == "Senior Manager") {
+              return CeoDashboard();
+            }
+
             if (role == "Employee") {
               return EmployeeDashboard();
             }

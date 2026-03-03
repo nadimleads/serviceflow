@@ -31,7 +31,7 @@ class CeoDashboard extends StatelessWidget {
         stream:
             FirebaseFirestore.instance
                 .collection('clients')
-                .where('active', isEqualTo: true)
+                // .where('active', isEqualTo: true)
                 .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {

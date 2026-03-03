@@ -76,7 +76,7 @@ class _AddNewClientState extends State<AddNewClient> {
           builder:
               (_) => ClientsProfile(
                 clientsId: newClientId,
-                clientsName: newClientId,
+                clientsName: _nameController.text.trim(),
                 //clientsName this is unnecessary i think(need to fix later in clients proile)
               ),
         ),
