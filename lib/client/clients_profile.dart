@@ -17,6 +17,37 @@ class ClientsProfile extends StatefulWidget {
 }
 
 class _ClientsProfileState extends State<ClientsProfile> {
+  Future<void> _markAsFullyPaid() async {
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Confirm Payment"),
+          content: const Text(
+            "Are you sure you want to mark this client as Fully Paid?",
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: const Text("Cancel"),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: const Text("Yes, Confirm"),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (confirm == true) {
+      await FirebaseFirestore.instance
+          .collection('clients')
+          .doc(widget.clientsId)
+          .update({'paymentStatus': 'Fully Paid'});
+    }
+  }
+
   Widget _buildSectionCard({
     required String title,
     required Widget child,
@@ -192,9 +223,6 @@ class _ClientsProfileState extends State<ClientsProfile> {
   ) async {
     final paidController = TextEditingController(text: paidAmount.toString());
 
-    // final amountController = TextEditingController(
-    //   text: totalAmount.toString(),
-    // );
     final statusController = TextEditingController(text: paymentStatus);
 
     await showDialog(
@@ -423,8 +451,10 @@ class _ClientsProfileState extends State<ClientsProfile> {
                     children: [
                       Text("Total Amount: $totalAmount ৳"),
                       const SizedBox(height: 6),
+
                       Text("TOTAL Paid Amount: $paidAmount ৳"),
                       const SizedBox(height: 6),
+
                       Text(
                         "Payable Amount: $payableAmount ৳",
                         style: TextStyle(
@@ -433,7 +463,24 @@ class _ClientsProfileState extends State<ClientsProfile> {
                         ),
                       ),
                       const SizedBox(height: 6),
+
                       Text("Payment Status: $paymentStatus"),
+
+                      const SizedBox(height: 12),
+
+                      /// ✅ Add This Button
+                      if (paymentStatus != "Fully Paid")
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton.icon(
+                            onPressed: _markAsFullyPaid,
+                            icon: const Icon(Icons.check_circle),
+                            label: const Text("Mark as Fully Paid"),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.green,
+                            ),
+                          ),
+                        ),
                     ],
                   ),
                 ),
