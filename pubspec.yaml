@@ -17,12 +17,10 @@ dependencies:
   firebase_core: ^4.4.0
   firebase_auth: ^6.1.4
   cloud_firestore: ^6.1.2
-  shared_preferences: ^2.5.3
   provider: ^6.1.5+1
   intl: ^0.20.2
 
 dev_dependencies:
-  build_runner: ^2.4.12          # Very stable & widely used (required for code generation)
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
