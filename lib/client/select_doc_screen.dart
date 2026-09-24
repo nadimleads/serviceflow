@@ -197,6 +197,7 @@ class _SelectDocsScreenState extends State<SelectDocsScreen> {
       transaction.update(clientRef, {'totalAmount': updatedTotal});
     });
 
+    if (!mounted) return;
     Navigator.pop(context);
   }
 }

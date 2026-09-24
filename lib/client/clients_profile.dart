@@ -139,6 +139,7 @@ class _ClientsProfileState extends State<ClientsProfile> {
                       'targetCountry': countryController.text.trim(),
                     });
 
+                if (!context.mounted) return;
                 Navigator.pop(context);
               },
               child: const Text("Save"),
@@ -205,6 +206,7 @@ class _ClientsProfileState extends State<ClientsProfile> {
                       'givenPapers': givenPapersController.text.trim(),
                     });
 
+                if (!context.mounted) return;
                 Navigator.pop(context);
               },
               child: const Text("Save"),
@@ -263,6 +265,7 @@ class _ClientsProfileState extends State<ClientsProfile> {
                       'paymentStatus': statusController.text.trim(),
                     });
 
+                if (!context.mounted) return;
                 Navigator.pop(context);
               },
               child: const Text("Save"),
@@ -604,7 +607,7 @@ class _ClientsProfileState extends State<ClientsProfile> {
                                 ],
                               ),
                             );
-                          }).toList(),
+                          }),
 
                           const Divider(height: 20),
 
