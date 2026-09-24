@@ -1,0 +1,125 @@
+rules_version = '2';
+
+// Interim rules for the CURRENT data model (clientsname, totalAmount,
+// neededDocs/cartDocs, 'File Opened'/'Due' strings). docs/BUILD_PLAN.md §2 has
+// the rules for the NEW model — swap to those in the same release as the
+// re-seed, not before, or every client and cart write here is denied.
+//
+// Same permission model as the plan: roles come from users/{uid}, nobody can
+// write their own role, both roles create, only the CEO edits or deletes, and
+// client edits are FIELD-scoped so an Employee can still record payments and
+// docs on a client they may not otherwise edit.
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function profileExists() {
+      return signedIn()
+        && exists(/databases/$(database)/documents/users/$(request.auth.uid));
+    }
+    function profile() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+    // Hand-typed in a console with no validation: tolerate case and whitespace.
+    function role() {
+      return profileExists() && 'role' in profile() && profile().role is string
+        ? profile().role.trim().lower() : '';
+    }
+    // 'senior manager' mirrors the TEMPORARY BRIDGE in AppRole.tryParse. Remove
+    // both together.
+    function isCeo()   { return role() == 'ceo' || role() == 'senior manager'; }
+    function isStaff() { return isCeo() || role() == 'employee'; }
+
+    function nonNegInt(v) { return v is int && v >= 0; }
+    function changed() {
+      return request.resource.data.diff(resource.data).affectedKeys();
+    }
+
+    function clientKeys() {
+      return ['clientId','clientsname','address','email','phone',
+              'targetCountry','fileDetails','fileType','fileStatus',
+              'givenPapers','paymentStatus','totalAmount','paidAmount',
+              'active','createdAt'];
+    }
+    // Everything an Employee's screens legitimately write: the cart total,
+    // payments, and moving a file along. Name, contact details, file type and
+    // the active flag stay CEO-only.
+    function employeeEditableClientKeys() {
+      return ['totalAmount','paidAmount','paymentStatus','fileStatus'];
+    }
+
+    // Accounts and roles are created by hand in the console. Denying ALL client
+    // writes is what makes self-promotion to 'ceo' impossible.
+    match /users/{uid} {
+      allow get:  if signedIn() && (request.auth.uid == uid || isCeo());
+      allow list: if isCeo();
+      allow create, update, delete: if false;
+    }
+
+    // Both roles create clients, so both need the counter. Strict +1 only.
+    match /counters/{counterId} {
+      allow get:  if isStaff();
+      allow list: if false;
+      allow create: if isStaff()
+                    && request.resource.data.keys().hasOnly(['lastId'])
+                    && request.resource.data.lastId == 1;
+      allow update: if isStaff()
+                    && changed().hasOnly(['lastId'])
+                    && request.resource.data.lastId == resource.data.lastId + 1;
+      allow delete: if false;
+    }
+
+    // Both roles CREATE; only the CEO edits, retires/relists or deletes.
+    match /docItems/{itemId} {
+      allow read: if isStaff();
+      allow create: if isStaff()
+                    && request.resource.data.keys().hasOnly(
+                         ['name','price','isAvailable','createdAt'])
+                    && request.resource.data.name is string
+                    && request.resource.data.name.size() > 0
+                    && nonNegInt(request.resource.data.price)
+                    && request.resource.data.isAvailable == true;
+      allow update: if isCeo()
+                    && changed().hasOnly(['name','price','isAvailable'])
+                    && request.resource.data.name is string
+                    && request.resource.data.name.size() > 0
+                    && nonNegInt(request.resource.data.price)
+                    && request.resource.data.isAvailable is bool;
+      allow delete: if isCeo();
+    }
+
+    match /clients/{clientId} {
+      allow get, list: if isStaff();
+
+      allow create: if isStaff()
+                    && request.resource.data.keys().hasOnly(clientKeys())
+                    && request.resource.data.clientId == clientId
+                    && request.resource.data.totalAmount == 0
+                    && request.resource.data.paidAmount == 0
+                    && request.resource.data.active == true;
+
+      allow update: if isStaff()
+                    && request.resource.data.keys().hasOnly(clientKeys())
+                    && !changed().hasAny(['clientId','createdAt'])
+                    && (!changed().hasAny(['totalAmount'])
+                        || nonNegInt(request.resource.data.totalAmount))
+                    && (!changed().hasAny(['paidAmount'])
+                        || nonNegInt(request.resource.data.paidAmount))
+                    && (isCeo() || changed().hasOnly(employeeEditableClientKeys()));
+
+      allow delete: if isCeo();
+
+      // The needed-docs cart. Both roles add and adjust docs.
+      match /neededDocs/{docId} {
+        allow read: if isStaff();
+        allow create, update: if isStaff() && docId == 'cartDocs'
+          && request.resource.data.keys().hasOnly(
+               ['docs','totalAmount','lastUpdated'])
+          && request.resource.data.docs is map
+          && nonNegInt(request.resource.data.totalAmount);
+        allow delete: if isCeo();
+      }
+    }
+  }
+}

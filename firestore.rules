@@ -1,0 +1,12 @@
+rules_version = '2';
+
+// TESTING ONLY — anyone on the internet can read, change or delete anything.
+// Before real data goes in, replace this file with firestore.strict.rules
+// (role-based, emulator-tested) and redeploy.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}
